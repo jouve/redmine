@@ -30,3 +30,6 @@ RUN buildDeps=' \
 
 COPY additional_environment.rb config/
 
+RUN sed -i -e 's/passenger)/passenger|puma)/' /docker-entrypoint.sh
+
+CMD ["puma", "--workers", "2", "--threads", "0:8", "--port", "3000"]
