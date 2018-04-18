@@ -1,4 +1,4 @@
-FROM redmine:3.4.4
+FROM redmine:3.4.5
 
 COPY Gemfile.local .
 
