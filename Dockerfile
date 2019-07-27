@@ -1,4 +1,4 @@
-FROM jouve/alpine:3.9.0
+FROM alpine:3.10
 
 RUN adduser -D redmine
 
