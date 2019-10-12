@@ -37,7 +37,7 @@ RUN set -e; \
         tzdata \
         zlib-dev; \
     echo '{ production: { adapter: postgresql } }' > /usr/src/redmine/config/database.yml; \
-    bundle install --deployment --path vendor --without develoment,test; \
+    bundle install --path vendor --without develoment ldap openid test; \
     rm -f /usr/src/redmine/config/database.yml; \
     chown -R redmine:redmine .; \
     apk del --no-cache \
