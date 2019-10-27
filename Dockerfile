@@ -2,7 +2,7 @@ FROM alpine:3.10
 
 RUN adduser -D redmine
 
-ARG REDMINE_VERSION=4.0.4
+ARG REDMINE_VERSION=4.0.5
 RUN set -e; \
     wget http://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz; \
     wget http://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz.md5; \
@@ -37,7 +37,7 @@ RUN set -e; \
         tzdata \
         zlib-dev; \
     echo '{ production: { adapter: postgresql } }' > /usr/src/redmine/config/database.yml; \
-    bundle install --path vendor --without develoment ldap openid test; \
+    bundle install --deployment --without develoment ldap openid test; \
     rm -f /usr/src/redmine/config/database.yml; \
     chown -R redmine:redmine .; \
     apk del --no-cache \
