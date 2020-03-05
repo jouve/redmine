@@ -1,8 +1,8 @@
-FROM alpine:3.10
+FROM alpine:3.11.3
 
 RUN adduser -D redmine
 
-ARG REDMINE_VERSION=4.0.5
+ARG REDMINE_VERSION=4.1.0
 RUN set -e; \
     wget http://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz; \
     wget http://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz.md5; \
