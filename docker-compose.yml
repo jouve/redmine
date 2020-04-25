@@ -1,0 +1,19 @@
+version: '2.4'
+services:
+  redmine:
+    image: redmine:4.1.1
+    build: .
+    ports:
+    - 3000:3000
+  db:
+    image: postgres:12.2-alpine
+    environment:
+      POSTGRES_PASSWORD: redmine
+      POSTGRES_USER: redmine
+      POSTGRES_DB: redmine
+    volumes:
+    - type: volume
+      source: dbdata
+      target: /var/lib/postgresql/data
+volumes:
+  dbdata:

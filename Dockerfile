@@ -1,8 +1,8 @@
-FROM alpine:3.11.3
+FROM alpine:3.11.6
 
 RUN adduser -D redmine
 
-ARG REDMINE_VERSION=4.1.0
+ARG REDMINE_VERSION=4.1.1
 RUN set -e; \
     wget http://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz; \
     wget http://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz.md5; \
@@ -18,7 +18,7 @@ WORKDIR /usr/src/redmine
 
 ENV RAILS_ENV production
 
-COPY --chown=redmine:redmine Gemfile.lock .
+COPY --chown=redmine:redmine Gemfile.local Gemfile.lock ./
 
 RUN set -e; \
     apk add --no-cache \
@@ -34,10 +34,11 @@ RUN set -e; \
         ruby-bundler \
         ruby-dev \
         ruby-etc \
+        ruby-json \
         tzdata \
         zlib-dev; \
     echo '{ production: { adapter: postgresql } }' > /usr/src/redmine/config/database.yml; \
-    bundle install --deployment --without develoment ldap openid test; \
+    bundle install --deployment --without develoment test; \
     rm -f /usr/src/redmine/config/database.yml; \
     chown -R redmine:redmine .; \
     apk del --no-cache \
