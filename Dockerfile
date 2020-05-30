@@ -46,6 +46,7 @@ RUN set -e; \
     bundle config --local deployment true; \
     bundle config --local build.nokogiri --use-system-libraries; \
     sed -i 3d Gemfile; \
+    sed -i "s/gem 'rails', .*/gem 'rails', '~>5.2.4.2'/" Gemfile; \
     bundle install; \
     rm -f /usr/src/redmine/config/database.yml; \
     chown -R redmine:redmine .; \
