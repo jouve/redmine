@@ -1,4 +1,4 @@
-FROM alpine:3.11.6
+FROM alpine:3.12.0
 
 RUN adduser -D redmine
 
@@ -26,6 +26,9 @@ RUN set -e; \
         imagemagick6 \
         imagemagick6-dev \
         libpq \
+        libxml2-dev \
+        libxslt \
+        libxslt-dev \
         make \
         musl-dev \
         postgresql-dev \
@@ -36,19 +39,27 @@ RUN set -e; \
         ruby-etc \
         ruby-json \
         tzdata \
-        zlib-dev; \
+        zlib-dev \
+    ; \
     echo '{ production: { adapter: postgresql } }' > /usr/src/redmine/config/database.yml; \
-    bundle install --deployment --without develoment test; \
+    bundle config --local without 'develoment test'; \
+    bundle config --local deployment true; \
+    bundle config --local build.nokogiri --use-system-libraries; \
+    sed -i 3d Gemfile; \
+    bundle install; \
     rm -f /usr/src/redmine/config/database.yml; \
     chown -R redmine:redmine .; \
     apk del --no-cache \
         gcc \
         imagemagick6-dev \
+        libxml2-dev \
+        libxslt-dev \
         make \
         musl-dev \
         postgresql-dev \
         ruby-dev \
-        zlib-dev
+        zlib-dev \
+    ;
 
 COPY --chown=redmine:redmine puma.rb config
 COPY docker-entrypoint.sh /usr/bin
