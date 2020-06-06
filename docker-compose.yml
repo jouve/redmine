@@ -1,8 +1,7 @@
 version: '2.4'
 services:
   redmine:
-    image: redmine:4.1.1
-    build: .
+    image: jouve/redmine
     ports:
     - 3000:3000
   db:
