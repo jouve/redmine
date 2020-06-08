@@ -134,7 +134,7 @@ GEM
       rbpdf-font (~> 1.19.0)
     rbpdf-font (1.19.1)
     redcarpet (3.5.0)
-    regexp_parser (1.7.0)
+    regexp_parser (1.7.1)
     request_store (1.4.1)
       rack (>= 1.4)
     roadie (4.0.0)
