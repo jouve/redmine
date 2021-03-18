@@ -18,7 +18,7 @@ WORKDIR /usr/src/redmine
 
 ENV RAILS_ENV production
 
-COPY --chown=redmine:redmine Gemfile.local Gemfile.lock ./
+COPY --chown=redmine:redmine Gemfile.lock ./
 
 RUN set -e; \
     apk add --no-cache \
