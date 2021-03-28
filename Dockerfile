@@ -1,15 +1,15 @@
-FROM alpine:3.13.0
+FROM alpine:3.13.3
 
 RUN adduser -D redmine
 
-ARG REDMINE_VERSION=4.1.1
+ARG REDMINE_VERSION=4.2.0
 RUN set -e; \
-    wget http://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz; \
-    wget http://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz.md5; \
-    md5sum -c redmine-${REDMINE_VERSION}.tar.gz.md5; \
+    wget https://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz; \
+    wget https://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz.sha256; \
+    sha256sum -c redmine-${REDMINE_VERSION}.tar.gz.sha256; \
     mkdir /usr/src; \
     tar xf redmine-${REDMINE_VERSION}.tar.gz -C /usr/src; \
-    rm -rf redmine-${REDMINE_VERSION}.tar.gz redmine-${REDMINE_VERSION}.tar.gz.md5; \
+    rm -rf redmine-${REDMINE_VERSION}.tar.gz redmine-${REDMINE_VERSION}.tar.gz.sha256; \
     mv /usr/src/redmine-${REDMINE_VERSION} /usr/src/redmine; \
     echo 'config.logger = Logger.new(STDOUT)' > /usr/src/redmine/config/additional_environment.rb; \
     chown -R redmine:redmine /usr/src/redmine
@@ -26,9 +26,6 @@ RUN set -e; \
         imagemagick6 \
         imagemagick6-dev \
         libpq \
-        libxml2-dev \
-        libxslt \
-        libxslt-dev \
         make \
         musl-dev \
         postgresql-dev \
@@ -44,9 +41,9 @@ RUN set -e; \
     echo '{ production: { adapter: postgresql } }' > /usr/src/redmine/config/database.yml; \
     bundle config --local without 'develoment test'; \
     bundle config --local deployment true; \
-    bundle config --local build.nokogiri --use-system-libraries; \
-    sed -i 3d Gemfile; \
-    sed -i "s/gem 'rails', .*/gem 'rails', '~>5.2.4.2'/" Gemfile; \
+    puma=$(sed -n /puma/p Gemfile); \
+    sed -i /puma/d Gemfile; \
+    echo "$puma" >> Gemfile; \
     bundle install; \
     rm -f /usr/src/redmine/config/database.yml; \
     chown -R redmine:redmine .; \

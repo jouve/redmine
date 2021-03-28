@@ -5,7 +5,7 @@ services:
     ports:
     - 3000:3000
   db:
-    image: postgres:12.2-alpine
+    image: postgres:alpine
     environment:
       POSTGRES_PASSWORD: redmine
       POSTGRES_USER: redmine
