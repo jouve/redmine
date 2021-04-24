@@ -2,6 +2,10 @@ version: '2.4'
 services:
   redmine:
     image: jouve/redmine
+    environment:
+      REDMINE_DB_POSTGRES: db
+      REDMINE_DB_USERNAME: redmine
+      REDMINE_DB_PASSWORD: redmine
     ports:
     - 3000:3000
   db:

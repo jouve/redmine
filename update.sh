@@ -32,6 +32,6 @@ export RAILS_ENV=production
 apk add --no-cache gcc imagemagick6-dev linux-headers make musl-dev postgresql-dev ruby ruby-bigdecimal ruby-bundler ruby-dev ruby-etc ruby-json tzdata zlib-dev
 echo '{ production: { adapter: postgresql } }' > config/database.yml
 bundle config --local without 'develoment test';
-bundle install;
+bundle lock;
 cp Gemfile.lock /srv
 "
