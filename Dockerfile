@@ -2,7 +2,7 @@ FROM alpine:3.13.5
 
 RUN adduser -D redmine
 
-ARG REDMINE_VERSION=4.2.0
+ARG REDMINE_VERSION=4.2.1
 RUN set -e; \
     wget https://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz; \
     wget https://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz.sha256; \
