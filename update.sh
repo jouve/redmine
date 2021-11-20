@@ -31,7 +31,7 @@ puma=\$(sed -n /puma/p Gemfile)
 sed -i /puma/d Gemfile
 echo \"\$puma\" >> Gemfile
 export RAILS_ENV=production
-apk add --no-cache gcc imagemagick6-dev linux-headers make musl-dev postgresql-dev ruby ruby-bigdecimal ruby-bundler ruby-dev ruby-etc ruby-json tzdata zlib-dev
+apk add --no-cache ruby-bundler
 echo '{ production: { adapter: postgresql } }' > config/database.yml
 bundle config --local without 'develoment test';
 bundle lock;
