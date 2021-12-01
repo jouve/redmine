@@ -2,6 +2,7 @@ version: '2.4'
 services:
   redmine:
     image: jouve/redmine
+    build: .
     environment:
       REDMINE_DB_POSTGRES: db
       REDMINE_DB_USERNAME: redmine
