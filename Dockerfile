@@ -22,20 +22,23 @@ COPY --chown=redmine:redmine Gemfile.lock ./
 
 RUN set -e; \
     apk add --no-cache \
-        gcc \
-        imagemagick6 \
-        imagemagick6-dev \
-        libpq \
-        make \
-        musl-dev \
-        postgresql-dev \
+        ghostscript \
+        ghostscript-fonts \
+        imagemagick \
         ruby \
         ruby-bigdecimal \
         ruby-bundler \
-        ruby-dev \
         ruby-etc \
         ruby-json \
         tzdata \
+    ; \
+    apk add --no-cache --virtual .build-deps \
+        gcc \
+        make \
+        musl-dev \
+        patch \
+        postgresql-dev \
+        ruby-dev \
         zlib-dev \
     ; \
     echo '{ production: { adapter: postgresql } }' > /usr/src/redmine/config/database.yml; \
@@ -47,17 +50,14 @@ RUN set -e; \
     bundle install; \
     rm -f /usr/src/redmine/config/database.yml; \
     chown -R redmine:redmine .; \
-    apk del --no-cache \
-        gcc \
-        imagemagick6-dev \
-        libxml2-dev \
-        libxslt-dev \
-        make \
-        musl-dev \
-        postgresql-dev \
-        ruby-dev \
-        zlib-dev \
-    ;
+    apk add --no-cache --virtual .run-deps $( \
+        find /usr/src/redmine -name '*.so' \
+        | while read -r so; do scanelf --needed --nobanner --format '%n#p' $so; done \
+        | tr ',' '\n' \
+        | sort -u \
+        | sed 's/^/so:/' \
+    ); \
+    apk del --no-cache .build-deps
 
 COPY --chown=redmine:redmine puma.rb config
 COPY docker-entrypoint.sh /usr/bin
