@@ -1,8 +1,8 @@
-FROM alpine:3.14.4
+FROM alpine:3.15.3
 
 RUN adduser -D redmine
 
-ARG REDMINE_VERSION=4.2.4
+ARG REDMINE_VERSION=5.0.0
 RUN set -e; \
     wget https://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz; \
     wget https://www.redmine.org/releases/redmine-${REDMINE_VERSION}.tar.gz.sha256; \
@@ -51,7 +51,7 @@ RUN set -e; \
     rm -f /usr/src/redmine/config/database.yml; \
     chown -R redmine:redmine .; \
     apk add --no-cache --virtual .run-deps $( \
-        find /usr/src/redmine -name '*.so' \
+        find /usr/src/redmine/vendor/bundle/ruby/3.0.0/extensions -name '*.so' \
         | while read -r so; do scanelf --needed --nobanner --format '%n#p' $so; done \
         | tr ',' '\n' \
         | sort -u \
