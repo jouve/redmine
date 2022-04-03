@@ -47,6 +47,7 @@ RUN set -e; \
     puma=$(sed -n /puma/p Gemfile); \
     sed -i /puma/d Gemfile; \
     echo "$puma" >> Gemfile; \
+    sed -i 's/gem \"commonmarker\", .*/gem \"commonmarker\", \"~> 0.23.1\"/' Gemfile; \
     bundle install; \
     rm -f /usr/src/redmine/config/database.yml; \
     chown -R redmine:redmine .; \

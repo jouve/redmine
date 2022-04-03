@@ -30,6 +30,7 @@ echo 'config.logger = Logger.new(STDOUT)' > config/additional_environment.rb;
 puma=\$(sed -n /puma/p Gemfile)
 sed -i /puma/d Gemfile
 echo \"\$puma\" >> Gemfile
+sed -i 's/gem \"commonmarker\", .*/gem \"commonmarker\", \"~> 0.23.1\"/' Gemfile
 export RAILS_ENV=production
 apk add --no-cache ruby-bundler
 echo '{ production: { adapter: postgresql } }' > config/database.yml
